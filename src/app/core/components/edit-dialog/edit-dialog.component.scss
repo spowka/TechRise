@@ -1,0 +1,46 @@
+.mat-mdc-card {
+  width: 400px;
+}
+
+.login-page {
+  height: 845px;
+  &__title {
+    font-family: "Nunito Sans";
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 25px;
+    color: #545454;
+  }
+}
+
+mat-card-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+mat-card {
+  width: 30%;
+  padding-top: 15px;
+  border-radius: 8px;
+}
+mat-form-field,
+mat-checkbox {
+  width: 80%;
+  display: block;
+  margin: auto;
+}
+mat-card-content {
+  margin-top: 20px;
+}
+
+.login-button {
+  margin-top: 20px;
+  display: block;
+  width: 80%;
+  margin: 20px auto;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  display: none;
+}

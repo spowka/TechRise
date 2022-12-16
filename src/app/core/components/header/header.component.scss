@@ -1,0 +1,63 @@
+.wrapper {
+  &__header {
+    background: #ffffff;
+    border: 1px solid #ededed;
+    padding: 25px 100px;
+    display: flex;
+    justify-content: space-between;
+    &__title {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      p {
+        font-family: "Antonio";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 25px;
+        line-height: 32px;
+        display: flex;
+        align-items: center;
+        color: #2a5392;
+        width: 79px;
+        height: 32px;
+      }
+    }
+    &__content {
+      font-family: "Nunito Sans";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 19px;
+      display: flex;
+      align-items: center;
+      color: #545454;
+      gap: 29px;
+      .about {
+      }
+      .pricing {
+      }
+      &__user {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        justify-content: center;
+        .icons {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding-bottom: 2px;
+          .drop-down {
+            height: 100%;
+            width: 100%;
+          }
+          .search {
+            padding-top: 2px;
+            font-size: 30px;
+            height: 100%;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

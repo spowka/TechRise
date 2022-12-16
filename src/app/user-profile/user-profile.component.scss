@@ -1,0 +1,135 @@
+.user-profile {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  &__background {
+    width: 100%;
+    background: linear-gradient(93.31deg, #4269aa -10.99%, #28aad6 129.09%);
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .wrapper {
+    position: absolute;
+    top: 170px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+
+    &__user-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 320px;
+      height: 360px;
+      background: #ffffff;
+      box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.05);
+
+      .name {
+        margin-top: 24px;
+        font-family: "Nunito Sans";
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 41px;
+        color: #545454;
+      }
+      .edit {
+        cursor: pointer;
+        display: flex;
+        gap: 6px;
+        background-color: #ececec;
+        opacity: 0.6;
+        padding: 8px 12px 8px 10px;
+      }
+    }
+    &__user-info {
+      padding: 20px 30px;
+      width: 800px;
+      height: 360px;
+      background: #ffffff;
+      box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.05);
+      .title {
+        font-family: "Nunito Sans";
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 25px;
+        color: #545454;
+      }
+      .under-line {
+        margin-top: 10px;
+        border: 1px solid #e5e5e5;
+      }
+      &__container {
+        margin-top: 35px;
+        display: flex;
+        gap: 190px;
+        .content1 {
+          display: flex;
+          flex-direction: column;
+          gap: 45px;
+          .user {
+            img {
+              margin-bottom: 7px;
+            }
+          }
+          .phone {
+            img {
+              margin-bottom: 9px;
+            }
+          }
+          .location {
+            img {
+              margin-bottom: 8px;
+            }
+          }
+        }
+        .content2 {
+          display: flex;
+          flex-direction: column;
+          gap: 45px;
+          .email {
+            img {
+              margin-bottom: 15px;
+            }
+          }
+          .date {
+            img {
+              margin-bottom: 6px;
+            }
+          }
+          .web-address {
+            img {
+              margin-bottom: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .content-text {
+    display: inline-block;
+    margin-left: 14px;
+    span {
+      font-family: "Nunito Sans";
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 22px;
+      align-items: center;
+      color: #7a7a7a;
+    }
+    p {
+      font-family: "Nunito Sans";
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 25px;
+      color: #545454;
+    }
+  }
+}

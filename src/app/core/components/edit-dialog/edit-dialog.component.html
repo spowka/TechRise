@@ -1,0 +1,135 @@
+<div class="login-page">
+  <mat-card class="mat-elevation-z12">
+    <mat-card-title class="login-page__title">Update date</mat-card-title>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <input matInput placeholder="User Name" formControlName="username" />
+        <mat-icon matSuffix>perm_identity</mat-icon>
+        <mat-error *ngIf="form.controls.username.invalid">
+          Username length is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          [disabled]="true"
+          matInput
+          placeholder="Email"
+          formControlName="email"
+        />
+        <mat-error *ngIf="form.controls.email.invalid"
+          >Email is required</mat-error
+        >
+        <mat-icon matSuffix>email</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="birthDate" />
+        <mat-error *ngIf="form.controls.birthDate.invalid"
+          >Date is required</mat-error
+        >
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Country</mat-label>
+        <input
+          type="text"
+          placeholder="Choose a country"
+          matInput
+          formControlName="country"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          <mat-option
+            *ngFor="let option of filteredCountries$ | async"
+            [value]="option.name"
+          >
+            {{ option.name }}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="form.controls.country.invalid"
+          >Country is required</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          [disabled]="true"
+          matInput
+          type="number"
+          placeholder="phone"
+          formControlName="phone"
+        />
+        <mat-error *ngIf="form.controls.phone.invalid"
+          >Phone is required</mat-error
+        >
+        <mat-icon matSuffix>perm_phone_msg</mat-icon>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="website" formControlName="website" />
+        <mat-error *ngIf="form.controls.email.invalid"
+          >Website is required</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Password"
+          type="password"
+          minlength="6"
+          formControlName="password"
+        />
+        <mat-error
+          *ngIf="
+            form.controls.password.errors &&
+            form.controls.password.errors['required']
+          "
+        >
+          Password is required
+        </mat-error>
+        <mat-error
+          *ngIf="
+            form.controls.password.errors &&
+            form.controls.password.errors['minlength']
+          "
+        >
+          Password must be of length 6
+        </mat-error>
+        <mat-icon matSuffix>lock</mat-icon>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Password"
+          type="password"
+          minlength="6"
+          formControlName="confirmPassword"
+        />
+        <mat-error
+          *ngIf="
+            form.controls.confirmPassword.errors &&
+            form.controls.confirmPassword.errors['required']
+          "
+        >
+          Re-Enter Password is required
+        </mat-error>
+        <mat-icon matSuffix>lock</mat-icon>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="login-button">
+        Update date
+      </button>
+    </form>
+    <button
+      mat-raised-button
+      color="primary"
+      class="login-button"
+      (click)="onNoClick()"
+    >
+      close dialog
+    </button>
+  </mat-card>
+</div>

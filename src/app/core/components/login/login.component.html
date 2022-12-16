@@ -1,0 +1,47 @@
+<div class="login-page">
+  <mat-card class="mat-elevation-z12">
+    <mat-card-title class="login-page-title">Sign In</mat-card-title>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <input matInput placeholder="Email" formControlName="email" />
+        <mat-error *ngIf="form.controls.email.invalid"
+          >Email is required</mat-error
+        >
+        <mat-icon matSuffix>email</mat-icon>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Password"
+          type="password"
+          minlength="6"
+          formControlName="password"
+        />
+        <mat-error
+          *ngIf="
+            form.controls.password.errors &&
+            form.controls.password.errors['required']
+          "
+        >
+          Password is required
+        </mat-error>
+        <mat-error
+          *ngIf="
+            form.controls.password.errors &&
+            form.controls.password.errors['minlength']
+          "
+        >
+          Password must be of length 6
+        </mat-error>
+        <mat-icon matSuffix>lock</mat-icon>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="login-button">
+        Sign In
+      </button>
+      <span class="have-account-button"
+        >Don't have an account -
+        <a [routerLink]="['/sign-up']">Sign Up</a></span
+      >
+    </form>
+  </mat-card>
+</div>
