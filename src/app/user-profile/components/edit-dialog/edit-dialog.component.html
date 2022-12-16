@@ -10,12 +10,7 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input
-          [disabled]="true"
-          matInput
-          placeholder="Email"
-          formControlName="email"
-        />
+        <input matInput placeholder="Email" formControlName="email" />
         <mat-error *ngIf="form.controls.email.invalid"
           >Email is required</mat-error
         >
@@ -58,7 +53,6 @@
 
       <mat-form-field>
         <input
-          [disabled]="true"
           matInput
           type="number"
           placeholder="phone"
@@ -75,59 +69,20 @@
           >Website is required</mat-error
         >
       </mat-form-field>
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="Password"
-          type="password"
-          minlength="6"
-          formControlName="password"
-        />
-        <mat-error
-          *ngIf="
-            form.controls.password.errors &&
-            form.controls.password.errors['required']
-          "
-        >
-          Password is required
-        </mat-error>
-        <mat-error
-          *ngIf="
-            form.controls.password.errors &&
-            form.controls.password.errors['minlength']
-          "
-        >
-          Password must be of length 6
-        </mat-error>
-        <mat-icon matSuffix>lock</mat-icon>
-      </mat-form-field>
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="Password"
-          type="password"
-          minlength="6"
-          formControlName="confirmPassword"
-        />
-        <mat-error
-          *ngIf="
-            form.controls.confirmPassword.errors &&
-            form.controls.confirmPassword.errors['required']
-          "
-        >
-          Re-Enter Password is required
-        </mat-error>
-        <mat-icon matSuffix>lock</mat-icon>
-      </mat-form-field>
-      <button mat-raised-button color="primary" class="login-button">
+      <button
+        mat-raised-button
+        color="primary"
+        class="login-button"
+        (click)="onUpdate()"
+      >
         Update date
       </button>
     </form>
     <button
       mat-raised-button
+      mat-dialog-close
       color="primary"
       class="login-button"
-      (click)="onNoClick()"
     >
       close dialog
     </button>

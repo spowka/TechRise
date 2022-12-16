@@ -22,7 +22,7 @@ mat-card-title {
 
 mat-card {
   width: 30%;
-  margin: 10% auto;
+  margin: 1% auto;
   padding-top: 15px;
   border-radius: 8px;
 }
@@ -85,4 +85,10 @@ mat-card-content {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   display: none;
+}
+
+@media (max-width: 1024px) {
+  mat-card {
+    width: 100%;
+  }
 }

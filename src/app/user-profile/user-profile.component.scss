@@ -4,6 +4,21 @@
   display: flex;
   justify-content: center;
 
+  .edit-mobile {
+    cursor: pointer;
+    gap: 6px;
+    background: #1a78a7;
+    border: 1px solid #ffffff;
+    padding: 8px 12px 8px 10px;
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    display: none;
+    p {
+      color: #fff;
+    }
+  }
+
   &__background {
     width: 100%;
     background: linear-gradient(93.31deg, #4269aa -10.99%, #28aad6 129.09%);
@@ -130,6 +145,56 @@
       font-size: 18px;
       line-height: 25px;
       color: #545454;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .user-profile {
+    &__background {
+      .bg-image {
+        height: 300%;
+      }
+    }
+    .edit-mobile {
+      display: flex;
+    }
+    .wrapper {
+      width: 400px;
+      gap: 0;
+      flex-direction: column;
+      &__user-content {
+        width: 100%;
+        box-shadow: unset;
+        position: relative;
+        height: 226px;
+        .name {
+          margin-top: 95px;
+        }
+        .edit {
+          display: none;
+        }
+        .image-wrapper {
+          position: absolute;
+          top: -105px;
+        }
+      }
+      &__user-info {
+        text-align: start;
+        box-shadow: 0;
+        height: 100%;
+        width: 100%;
+        &__container {
+          display: block;
+          .content1 {
+            text-align: start;
+          }
+          .content2 {
+            text-align: start;
+            margin-top: 40px;
+          }
+        }
+      }
     }
   }
 }

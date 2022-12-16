@@ -1,14 +1,22 @@
 <div class="user-profile">
   <div class="user-profile__background">
-    <img src="/assets/images/background-image.png" alt="main-img" />
+    <img
+      class="bg-image"
+      src="/assets/images/background-image.png"
+      alt="main-img"
+    />
+  </div>
+  <div class="edit-mobile" (click)="openEditDialog()">
+    <img src="/assets/images/Vectormobile_edit.svg" alt="pen" />
+    <p>Edit Profile</p>
   </div>
   <div class="wrapper">
     <div class="wrapper__user-content">
-      <div>
+      <div class="image-wrapper">
         <img src="/assets/images/popup-user-img.png" alt="user-img" />
       </div>
       <div class="name">
-        <p>Robert Downey Jr</p>
+        <p>{{ user?.username }}</p>
       </div>
       <div class="edit" (click)="openEditDialog()">
         <img src="/assets/icons/pen.png" alt="pen" />
@@ -26,21 +34,21 @@
             <img src="/assets/icons/user.png" alt="user" />
             <div class="text content-text">
               <span>Username</span>
-              <p>Robert Downey Jr</p>
+              <p>{{ user?.username }}</p>
             </div>
           </div>
           <div class="phone">
             <img src="/assets/icons/phone.png" alt="phone" />
             <div class="text content-text">
               <span>Phone</span>
-              <p>+1 123-456-789</p>
+              <p>{{ user?.phone }}</p>
             </div>
           </div>
           <div class="location">
             <img src="/assets/icons/location.png" alt="phone" />
             <div class="text content-text">
               <span>Country</span>
-              <p>United States</p>
+              <p>{{ user?.country }}</p>
             </div>
           </div>
         </div>
@@ -50,21 +58,21 @@
             <img src="/assets/icons/email.png" alt="user" />
             <div class="text content-text">
               <span>Email</span>
-              <p>robertdjr@starkindustries.com</p>
+              <p>{{ user?.email }}</p>
             </div>
           </div>
           <div class="data">
             <img src="/assets/icons/date.png" alt="phone" />
             <div class="text content-text">
               <span>Birthdate</span>
-              <p>09/10/1968</p>
+              <p>{{ user?.birthDate | date }}</p>
             </div>
           </div>
           <div class="web-address">
             <img src="/assets/icons/world.png" alt="phone" />
             <div class="text content-text">
               <span>Website</span>
-              <p>www.starkindustries.com</p>
+              <p>{{ user?.website }}</p>
             </div>
           </div>
         </div>

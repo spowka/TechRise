@@ -8,14 +8,14 @@
       <div class=".about">
         <a>About Us</a>
       </div>
-      <div class=".pricing">
+      <div class="pricing">
         <a>Pricing</a>
       </div>
       <div class="wrapper__header__content__user">
         <img src="/assets/images/user-image.png" alt="user-img" />
         <p>Robert</p>
-        <div class=".icons">
-          <mat-icon class=".drop-down" [matMenuTriggerFor]="menu"
+        <div class="icons">
+          <mat-icon class="drop-down" [matMenuTriggerFor]="menu"
             >arrow_drop_down</mat-icon
           >
           <mat-menu #menu="matMenu">
@@ -25,6 +25,38 @@
           <mat-icon class=".search">search</mat-icon>
         </div>
       </div>
+    </div>
+
+    <div class="wrapper__header__mobile">
+      <img
+        [matMenuTriggerFor]="menu2"
+        src="/assets/icons/menu.png"
+        alt="menu"
+      />
+      <mat-menu #menu2="matMenu">
+        <div class="about">
+          <a>About Us</a>
+        </div>
+        <div class="pricing">
+          <a>Pricing</a>
+        </div>
+        <div
+          class="wrapper__header__content__user"
+          (click)="$event.stopPropagation()"
+        >
+          <img src="/assets/images/user-image.png" alt="user-img" />
+          <p>Robert</p>
+          <div class="icons">
+            <mat-icon class="drop-down" [matMenuTriggerFor]="menu3"
+              >arrow_drop_down</mat-icon
+            >
+            <mat-menu #menu3="matMenu">
+              <a routerLink="/sign-up" mat-menu-item>sign up</a>
+              <a routerLink="/login" mat-menu-item>login</a>
+            </mat-menu>
+          </div>
+        </div>
+      </mat-menu>
     </div>
   </div>
 </div>

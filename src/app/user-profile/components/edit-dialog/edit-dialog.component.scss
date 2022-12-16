@@ -3,7 +3,6 @@
 }
 
 .login-page {
-  height: 845px;
   &__title {
     font-family: "Nunito Sans";
     font-weight: 700;
@@ -20,7 +19,7 @@ mat-card-title {
 
 mat-card {
   width: 30%;
-  padding-top: 15px;
+  padding-top: 30px;
   border-radius: 8px;
 }
 mat-form-field,
@@ -43,4 +42,12 @@ mat-card-content {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   display: none;
+}
+
+@media (max-width: 1024px) {
+  ::ng-deep {
+    mat-card {
+      max-width: 330px;
+    }
+  }
 }

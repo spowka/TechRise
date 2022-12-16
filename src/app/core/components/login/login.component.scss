@@ -13,7 +13,7 @@ mat-card-title {
 mat-card {
   padding-top: 15px;
   width: 30%;
-  margin: 10% auto;
+  margin: 1% auto;
   border-radius: 8px;
 }
 mat-form-field,
@@ -49,5 +49,11 @@ mat-card-content {
     font-weight: 500;
     font-size: 18px;
     line-height: 41px;
+  }
+}
+
+@media (max-width: 1024px) {
+  mat-card {
+    width: 100%;
   }
 }

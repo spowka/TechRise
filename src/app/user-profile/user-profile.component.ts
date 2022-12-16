@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { EditDialogComponent } from '../core/components/edit-dialog/edit-dialog.component';
 import { User } from '../shared/models/user.model';
+import { EditDialogComponent } from './components/edit-dialog/edit-dialog.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -10,33 +10,37 @@ import { User } from '../shared/models/user.model';
   styleUrls: ['./user-profile.component.scss'],
 })
 export class UserProfileComponent implements OnInit {
+  public user?: User;
+
   constructor(
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getUser();
+  }
 
   openEditDialog(): void {
-    const usersJson = localStorage.getItem('users');
-    let user;
-    if (usersJson) {
-      const users: User[] = JSON.parse(usersJson);
-      let id: string;
-      this.activatedRoute.params.subscribe((params: any) => {
-        id = params.queryParams;
-      });
-      user = users.filter((user) => user.id != id);
-      console.log(user);
-    }
-
     const dialogRef = this.dialog.open(EditDialogComponent, {
-      data: { user: user },
+      data: { user: this.user },
     });
-    console.log(dialogRef);
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+      this.getUser();
     });
+  }
+
+  getUser() {
+    const usersJson = localStorage.getItem('users');
+    if (usersJson) {
+      const users: User[] = JSON.parse(usersJson);
+      let id: number;
+      this.activatedRoute.params.subscribe((params: any) => {
+        id = +params.queryParams;
+      });
+
+      this.user = users.find((user) => user.id === id);
+    }
   }
 }

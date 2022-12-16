@@ -6,15 +6,9 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { MaterialModule } from '../shared/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { EditDialogComponent } from './components/edit-dialog/edit-dialog.component';
 
 @NgModule({
-  declarations: [
-    HeaderComponent,
-    LoginComponent,
-    SignUpComponent,
-    EditDialogComponent,
-  ],
+  declarations: [HeaderComponent, LoginComponent, SignUpComponent],
   imports: [
     CommonModule,
     MaterialModule,
@@ -22,11 +16,6 @@ import { EditDialogComponent } from './components/edit-dialog/edit-dialog.compon
     ReactiveFormsModule,
     RouterModule,
   ],
-  exports: [
-    HeaderComponent,
-    EditDialogComponent,
-    LoginComponent,
-    SignUpComponent,
-  ],
+  exports: [HeaderComponent, LoginComponent, SignUpComponent],
 })
 export class CoreModule {}
