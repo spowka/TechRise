@@ -7,13 +7,21 @@
     />
   </div>
   <div class="edit-mobile" (click)="openEditDialog()">
-    <img src="/assets/images/Vectormobile_edit.svg" alt="pen" />
+    <img src="/assets/icons/pen-write.svg" alt="pen" />
     <p>Edit Profile</p>
   </div>
   <div class="wrapper">
     <div class="wrapper__user-content">
       <div class="image-wrapper">
-        <img src="/assets/images/popup-user-img.png" alt="user-img" />
+        <i
+          *ngIf="!imageUrl.changingThisBreaksApplicationSecurity"
+          class="fa-solid fa-user fa-10x user-icon"
+        ></i>
+        <img
+          *ngIf="imageUrl.changingThisBreaksApplicationSecurity"
+          [src]="imageUrl"
+          alt="user-img"
+        />
       </div>
       <div class="name">
         <p>{{ user?.username }}</p>

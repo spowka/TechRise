@@ -3,6 +3,7 @@
     <mat-card-title class="login-page-title">Sign In</mat-card-title>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <mat-form-field>
+        <mat-label>Email</mat-label>
         <input matInput placeholder="Email" formControlName="email" />
         <mat-error *ngIf="form.controls.email.invalid"
           >Email is required</mat-error
@@ -10,6 +11,7 @@
         <mat-icon matSuffix>email</mat-icon>
       </mat-form-field>
       <mat-form-field>
+        <mat-label>Password</mat-label>
         <input
           matInput
           placeholder="Password"

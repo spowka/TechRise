@@ -8,6 +8,8 @@
 //   font-weight: normal;
 // }
 
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+
 @font-face {
   font-family: Nunito Sans;
   src: url("./assets/fonts/nanito/NunitoSans-Light.ttf");
@@ -32,6 +34,12 @@
   box-sizing: border-box;
 }
 
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 body {
   font-family: Nunito Sans;
   background-color: #f5f5f5;
@@ -39,8 +47,6 @@ body {
 
 @media (max-width: 1024px) {
   body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex-center;
   }
 }

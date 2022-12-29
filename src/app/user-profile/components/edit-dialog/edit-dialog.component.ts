@@ -1,17 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { map, Observable, startWith, switchMap, take } from 'rxjs';
-import { ICountry } from 'src/app/shared/models/country.model';
-import { SignUpFormDto } from 'src/app/shared/models/sign-up.model';
 import { User } from 'src/app/shared/models/user.model';
+import { Component, Inject, OnInit } from '@angular/core';
+import { ICountry } from 'src/app/shared/models/country.model';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { map, Observable, startWith, switchMap, take } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SignUpFormDto } from 'src/app/shared/models/sign-up.model';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CountriesService } from 'src/app/shared/services/countries.service';
 
 type FormType = Omit<SignUpFormDto, 'password' | 'confirmPassword'>;
@@ -23,17 +17,18 @@ type FormType = Omit<SignUpFormDto, 'password' | 'confirmPassword'>;
 })
 export class EditDialogComponent implements OnInit {
   public form: FormGroup<FormType>;
-
-  public countries$: Observable<ICountry[]>;
+  public imgSrc?: string | ArrayBuffer | null;
+  private _countries$: Observable<ICountry[]>;
   public filteredCountries$: Observable<ICountry[]>;
 
   constructor(
+    private _fb: FormBuilder,
+    private countriesService: CountriesService,
+    private _authService: AuthService,
     public dialogRef: MatDialogRef<EditDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { user: User },
-    private fb: FormBuilder,
-    private countriesService: CountriesService
+    @Inject(MAT_DIALOG_DATA) public data: { user: User }
   ) {
-    this.form = this.fb.nonNullable.group({
+    this.form = this._fb.nonNullable.group({
       username: [
         '',
         [
@@ -58,11 +53,10 @@ export class EditDialogComponent implements OnInit {
           Validators.required,
         ],
       ],
+      image: [''],
     });
-
-    this.countries$ = this.countriesService.countries$;
-
-    this.countries$.pipe(take(1)).subscribe((countries) => {
+    this._countries$ = this.countriesService.countries$;
+    this._countries$.pipe(take(1)).subscribe((countries) => {
       if (!countries.length) this.countriesService.fetchCountries();
     });
 
@@ -76,11 +70,9 @@ export class EditDialogComponent implements OnInit {
     this.form.patchValue(this.data.user);
   }
 
-  onSubmit() {}
-
   private _filter(value: string): Observable<ICountry[]> {
     const filterValue = value.toLowerCase();
-    return this.countries$.pipe(
+    return this._countries$.pipe(
       map((countries) =>
         countries.filter((option) =>
           option.name.toLowerCase().includes(filterValue)
@@ -89,19 +81,31 @@ export class EditDialogComponent implements OnInit {
     );
   }
 
-  onUpdate(): void {
+  onSubmit(): void {
     if (this.form.valid) {
-      let users = JSON.parse(<any>localStorage.getItem('users'));
-      users = users.map((user: User) => {
-        if (user.id === this.data.user.id) {
-          return { ...this.data.user, ...this.form.getRawValue() };
-        }
-        return user;
-      });
-      localStorage.setItem('users', JSON.stringify(users));
+      if (this.imgSrc) {
+        this.form.value.image = this.imgSrc;
+      }
+      this._authService.editUser(this.form.value, this.data.user);
       this.dialogRef.close();
     } else {
       this.form.markAllAsTouched();
     }
   }
+
+  readURL(event: Event): void {
+    if (
+      (<HTMLInputElement>event.target).files &&
+      (<FileList>(<HTMLInputElement>event.target)?.files)[0]
+    ) {
+      const file = (<FileList>(<HTMLInputElement>event.target).files)[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imgSrc = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  upload(): void {}
 }

@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './core/components/login/login.component';
-import { SignUpComponent } from './core/components/sign-up/sign-up.component';
 import { AuthGuard } from './shared/guard/auth.guard';
+import { LoginComponent } from './core/components/login/login.component';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { SignUpComponent } from './core/components/sign-up/sign-up.component';
+import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/user-profile', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   {
     path: 'user-profile',
     loadChildren: () =>
@@ -16,11 +17,13 @@ const routes: Routes = [
   },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'login', component: LoginComponent },
-  { path: '**', redirectTo: '/user-profile', pathMatch: 'full' },
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

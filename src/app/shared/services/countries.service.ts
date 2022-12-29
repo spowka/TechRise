@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { ICountry } from '../models/country.model';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class CountriesService {

@@ -5,24 +5,40 @@
       <p>TechRise</p>
     </div>
     <div class="wrapper__header__content">
-      <div class=".about">
+      <div class="about">
         <a>About Us</a>
       </div>
       <div class="pricing">
         <a>Pricing</a>
       </div>
       <div class="wrapper__header__content__user">
-        <img src="/assets/images/user-image.png" alt="user-img" />
-        <p>Robert</p>
+        <i
+          *ngIf="!imageUrl?.changingThisBreaksApplicationSecurity"
+          class="fa-solid fa-user fa-2x user-icon"
+        ></i>
+        <img
+          *ngIf="imageUrl?.changingThisBreaksApplicationSecurity"
+          [src]="imageUrl"
+        />
+        <p *ngIf="userLogined">{{ user?.username }}</p>
         <div class="icons">
           <mat-icon class="drop-down" [matMenuTriggerFor]="menu"
             >arrow_drop_down</mat-icon
           >
           <mat-menu #menu="matMenu">
-            <a routerLink="/sign-up" mat-menu-item>sign up</a>
-            <a routerLink="/login" mat-menu-item>login</a>
+            <a *ngIf="!userLogined" routerLink="/sign-up" mat-menu-item
+              >sign up</a
+            >
+            <a *ngIf="!userLogined" routerLink="/login" mat-menu-item>login</a>
+            <a *ngIf="userLogined" mat-menu-item (click)="onLogOut()">logout</a>
+            <a *ngIf="userLogined" mat-menu-item (click)="openEditPopup()"
+              >Edit</a
+            >
+            <a routerLink="/user-profile" *ngIf="userLogined" mat-menu-item
+              >View Profile</a
+            >
           </mat-menu>
-          <mat-icon class=".search">search</mat-icon>
+          <mat-icon class="search">search</mat-icon>
         </div>
       </div>
     </div>
@@ -44,15 +60,29 @@
           class="wrapper__header__content__user"
           (click)="$event.stopPropagation()"
         >
-          <img src="/assets/images/user-image.png" alt="user-img" />
-          <p>Robert</p>
+          <i
+            *ngIf="!imageUrl.changingThisBreaksApplicationSecurity"
+            class="fa-solid fa-user fa-2x user-icon"
+          ></i>
+          <img
+            *ngIf="imageUrl.changingThisBreaksApplicationSecurity"
+            [src]="imageUrl"
+          />
+          <p *ngIf="userLogined">{{ user?.username }}</p>
           <div class="icons">
             <mat-icon class="drop-down" [matMenuTriggerFor]="menu3"
               >arrow_drop_down</mat-icon
             >
             <mat-menu #menu3="matMenu">
-              <a routerLink="/sign-up" mat-menu-item>sign up</a>
-              <a routerLink="/login" mat-menu-item>login</a>
+              <a *ngIf="!userLogined" routerLink="/sign-up" mat-menu-item
+                >sign up</a
+              >
+              <a *ngIf="!userLogined" routerLink="/login" mat-menu-item
+                >login</a
+              >
+              <a *ngIf="userLogined" mat-menu-item (click)="onLogOut()"
+                >logout</a
+              >
             </mat-menu>
           </div>
         </div>

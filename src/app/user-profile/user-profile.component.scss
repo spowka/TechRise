@@ -45,7 +45,15 @@
       height: 360px;
       background: #ffffff;
       box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.05);
-
+      .image-wrapper {
+        img {
+          height: 200px;
+          width: 200px;
+        }
+        .user-icon {
+          opacity: 0.6;
+        }
+      }
       .name {
         margin-top: 24px;
         font-family: "Nunito Sans";

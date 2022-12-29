@@ -10,6 +10,7 @@ export interface SignUpDto {
   website: string;
   password: string;
   confirmPassword: string;
+  image: string;
 }
 
 export interface SignUpFormDto {
@@ -21,4 +22,5 @@ export interface SignUpFormDto {
   website: FormControl<string>;
   password: FormControl<string>;
   confirmPassword: FormControl<string>;
+  image: FormControl<any>;
 }

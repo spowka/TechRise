@@ -7,6 +7,7 @@ export class User {
     public country: string,
     public phone: string,
     public website: string,
-    public password: string
+    public password: string,
+    public image: any
   ) {}
 }

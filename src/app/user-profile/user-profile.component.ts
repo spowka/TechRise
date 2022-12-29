@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { User } from '../shared/models/user.model';
+import { MatDialog } from '@angular/material/dialog';
+import { DomSanitizer } from '@angular/platform-browser';
+import { AuthService } from '../core/services/auth.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EditDialogComponent } from './components/edit-dialog/edit-dialog.component';
 
 @Component({
@@ -9,38 +11,35 @@ import { EditDialogComponent } from './components/edit-dialog/edit-dialog.compon
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss'],
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent implements OnInit, OnDestroy {
   public user?: User;
+  public imageUrl?: any = null;
+  private _unSubscription: Subscription = new Subscription();
 
   constructor(
-    public dialog: MatDialog,
-    private activatedRoute: ActivatedRoute
+    private _dialog: MatDialog,
+    private _authService: AuthService,
+    private _domSanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
-    this.getUser();
+    this._unSubscription = this._authService.user$.subscribe((user) => {
+      this.user = user;
+      this.imageUrl = this._domSanitizer.bypassSecurityTrustUrl(
+        this.user?.image
+      );
+    });
+    this._authService.getUser();
   }
 
   openEditDialog(): void {
-    const dialogRef = this.dialog.open(EditDialogComponent, {
+    this._dialog.open(EditDialogComponent, {
       data: { user: this.user },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      this.getUser();
     });
   }
 
-  getUser() {
-    const usersJson = localStorage.getItem('users');
-    if (usersJson) {
-      const users: User[] = JSON.parse(usersJson);
-      let id: number;
-      this.activatedRoute.params.subscribe((params: any) => {
-        id = +params.queryParams;
-      });
-
-      this.user = users.find((user) => user.id === id);
-    }
+  ngOnDestroy(): void {
+    this._unSubscription.unsubscribe();
+    this._authService.getUser();
   }
 }

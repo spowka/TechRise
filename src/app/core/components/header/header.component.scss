@@ -12,6 +12,9 @@
       justify-content: center;
       gap: 20px;
       padding: 10px;
+      img {
+        cursor: pointer;
+      }
     }
     &__title {
       display: flex;
@@ -43,21 +46,29 @@
       align-items: center;
       color: #545454;
       gap: 29px;
-      .about {
-      }
+      .about,
       .pricing {
+        cursor: pointer;
       }
       &__user {
         display: flex;
         align-items: center;
         gap: 5px;
         justify-content: center;
+        img {
+          height: 40px;
+          width: 40px;
+        }
+        .user-icon {
+          opacity: 0.6;
+        }
         .icons {
           display: flex;
           align-items: center;
           justify-content: center;
           padding-bottom: 2px;
           .drop-down {
+            cursor: pointer;
             height: 100%;
             width: 100%;
           }
@@ -74,6 +85,9 @@
 }
 
 ::ng-deep {
+  mat-icon {
+    color: rgba(129, 129, 129, 0.9);
+  }
   .mat-mdc-menu-panel.mat-mdc-menu-panel {
     display: flex;
     flex-direction: column;
@@ -91,6 +105,7 @@
       }
     }
     .about {
+      cursor: pointer;
       font-family: "Nunito Sans";
       font-weight: 700;
       font-size: 18px;
@@ -99,6 +114,7 @@
       margin-bottom: 10px;
     }
     .pricing {
+      cursor: pointer;
       font-family: "Nunito Sans";
       font-weight: 700;
       font-size: 18px;

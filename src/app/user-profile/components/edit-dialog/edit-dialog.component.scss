@@ -18,8 +18,8 @@ mat-card-title {
 }
 
 mat-card {
-  width: 30%;
-  padding-top: 30px;
+  width: 450px;
+  padding: 25px 0;
   border-radius: 8px;
 }
 mat-form-field,
@@ -33,16 +33,93 @@ mat-card-content {
 }
 
 .login-button {
-  margin-top: 20px;
-  display: block;
-  width: 80%;
   margin: 20px auto;
+  display: block;
+  width: 70%;
+  margin-bottom: 0;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   display: none;
 }
+
+// .dropzone {
+//   min-height: 150px;
+//   min-width: 400px;
+//   display: table;
+//   width: 100%;
+//   background-color: #eee;
+//   border: dotted 1px #aaa;
+// }
+
+.text-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.centered {
+  font-family: sans-serif;
+  font-size: 1.3em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.upload-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  mat-icon {
+    color: green;
+    margin-left: 15px;
+  }
+  label {
+    padding: 5px 30px;
+    border-radius: 5px;
+    background-color: rgb(84, 84, 84, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    color: rgb(43, 47, 51);
+    cursor: pointer;
+    &:hover {
+      background-color: rgb(84, 84, 84, 0.6);
+    }
+  }
+  input[type="file"] {
+    visibility: hidden;
+    display: none;
+  }
+}
+
+.image-drop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.world-icon {
+  position: absolute;
+  right: -4px;
+  top: 14px;
+  height: 24px;
+  width: 24px;
+}
+
+.location {
+  width: 21px;
+  height: 25px;
+}
+
+// ::ng-deep {
+//   .mat-mdc-form-field-icon-suffix {
+//     color: rgba(129, 129, 129, 0.9);
+//   }
+//   .mat-mdc-button-touch-target {
+//     color: rgba(129, 129, 129, 0.9);
+//   }
+// }
 
 @media (max-width: 1024px) {
   ::ng-deep {

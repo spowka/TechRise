@@ -1,34 +1,31 @@
+import { Router } from '@angular/router';
+import { User } from 'src/app/shared/models/user.model';
+import { AuthService } from '../../services/auth.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ICountry } from 'src/app/shared/models/country.model';
+import { CountriesService } from 'src/app/shared/services/countries.service';
+import { SignUpDto, SignUpFormDto } from 'src/app/shared/models/sign-up.model';
 import {
-  AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
 import {
   BehaviorSubject,
   map,
   Observable,
-  repeat,
   repeatWhen,
-  retry,
-  retryWhen,
   startWith,
   Subject,
   switchMap,
   take,
   takeUntil,
-  tap,
   timer,
 } from 'rxjs';
-import { ICountry } from 'src/app/shared/models/country.model';
-import { SignUpDto, SignUpFormDto } from 'src/app/shared/models/sign-up.model';
-import { CountriesService } from 'src/app/shared/services/countries.service';
-import { AuthService } from '../../services/auth.service';
+import { SignUpService } from '../../services/sign-up.service';
+
+type currentUserType = Omit<User, 'id'>;
 
 @Component({
   selector: 'app-sign-up',
@@ -37,32 +34,37 @@ import { AuthService } from '../../services/auth.service';
   providers: [CountriesService],
 })
 export class SignUpComponent implements OnInit, OnDestroy {
+  private _timerStop$: Subject<void> = new Subject();
+  private _timerStart$: Subject<void> = new Subject();
+  private _unSubscribe$: Subject<void> = new Subject();
   private _signUp$: Subject<boolean> = new BehaviorSubject(true);
-  private unSubscribe$: Subject<void> = new Subject();
-  private timerStart: Subject<void> = new Subject();
-  private timerStop: Subject<void> = new Subject();
+  private _timer: number = 120;
 
+  public imageUrl: any;
+  public currentTime: number = this._timer;
+  public timerEnd: boolean = true;
   public signUp!: boolean;
+  public users: User[] = [];
   public form: FormGroup<SignUpFormDto>;
+  public verify!: FormControl;
   public countries$: Observable<ICountry[]>;
   public filteredCountries$: Observable<ICountry[]>;
-  public timer = 120;
-  public currentTime: number = this.timer;
-  public timerEnd: boolean = true;
-  public verify!: FormControl;
+  public emailAlreadyExist: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private countriesService: CountriesService,
-    private router: Router
+    private _fb: FormBuilder,
+    private _router: Router,
+    private _authService: AuthService,
+    private _countriesService: CountriesService,
+    private _signUpService: SignUpService
   ) {
     this.verify = new FormControl('', [
       Validators.required,
-      Validators.pattern(`^[0-9]*$`),
+      Validators.minLength(4),
       Validators.maxLength(4),
+      Validators.pattern(`^[0-9]*$`),
     ]);
-    this.form = this.fb.nonNullable.group(
+    this.form = this._fb.nonNullable.group(
       {
         username: [
           '',
@@ -80,7 +82,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
           '',
           [
             Validators.pattern(
-              /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+              /[-a-zA-Z0-9@:%._\+~#=]{1,5}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
             ),
             Validators.required,
           ],
@@ -94,113 +96,115 @@ export class SignUpComponent implements OnInit, OnDestroy {
           ],
         ],
         confirmPassword: ['', Validators.required],
+        image: [''],
       },
       {
-        validators: this.confirmedValidator('password', 'confirmPassword'),
+        validators: this._signUpService.confirmedValidatorFn(
+          'password',
+          'confirmPassword'
+        ),
       }
     );
 
-    this.countries$ = this.countriesService.countries$;
+    this.countries$ = this._countriesService.countries$;
 
     this.countries$.pipe(take(1)).subscribe((countries) => {
-      if (!countries.length) this.countriesService.fetchCountries();
+      if (!countries.length) this._countriesService.fetchCountries();
     });
 
     this.filteredCountries$ = this.form.controls.country.valueChanges.pipe(
       startWith(''),
-      switchMap((value) => this._filter(value || ''))
+      switchMap((value) =>
+        this._signUpService.filter(value || '', this.countries$)
+      )
     );
   }
 
   ngOnInit(): void {
-    this._signUp$.pipe(takeUntil(this.unSubscribe$)).subscribe((val) => {
+    this._signUp$.pipe(takeUntil(this._unSubscribe$)).subscribe((val) => {
       this.signUp = val;
     });
   }
 
   onSubmit() {
+    const currentUser: User = <User>this.form.value;
+    this.emailAlreadyExist = this._signUpService.emailAlreadyExist(currentUser);
     if (!this.form.valid) {
       return;
     }
 
-    // this.authService.signUp(this.form.value as SignUpDto);
+    if (this.imageUrl) {
+      this.form.value.image = this.imageUrl;
+    }
+
     this._signUp$.next(false);
 
-    const source = timer(1000, 1000);
-    source
+    timer(1000, 1000)
       .pipe(
-        takeUntil(this.timerStop),
-        repeatWhen(() => this.timerStart)
+        takeUntil(this._timerStop$),
+        repeatWhen(() => this._timerStart$)
       )
       .subscribe((val) => {
         this.timerEnd = true;
-        this.currentTime = this.timer - val;
+        this.currentTime = this._timer - val;
         if (this.currentTime === 0) {
-          this.timerStop.next();
+          this._timerStop$.next();
           this.timerEnd = false;
         }
       });
   }
 
   sendCodeAgain() {
-    this.timerStart.next();
-  }
-
-  confirmedValidator(password: string, confirmPassword: string): ValidatorFn {
-    return (formGroup: AbstractControl): ValidationErrors | null => {
-      const passwordControl = formGroup.get(password);
-      const confirmPasswordControl = formGroup.get(confirmPassword);
-
-      if (!passwordControl || !confirmPasswordControl) {
-        return null;
-      }
-
-      if (
-        confirmPasswordControl.errors &&
-        !confirmPasswordControl.errors['passwordMismatch']
-      ) {
-        return null;
-      }
-
-      if (passwordControl.value !== confirmPasswordControl.value) {
-        confirmPasswordControl.setErrors({ passwordMismatch: true });
-        return { passwordMismatch: true };
-      } else {
-        confirmPasswordControl.setErrors(null);
-        return null;
-      }
-    };
-  }
-
-  private _filter(value: string): Observable<ICountry[]> {
-    const filterValue = value.toLowerCase();
-    return this.countries$.pipe(
-      map((countries) =>
-        countries.filter((option) =>
-          option.name.toLowerCase().includes(filterValue)
-        )
-      )
-    );
+    this._timerStart$.next();
   }
 
   onNavigateUserProfile() {
-    const users = JSON.parse(<string>localStorage.getItem('users'));
-    this.authService.signUp({
+    let randomId = this.getRandomId();
+    const currentUser = this.form.value;
+
+    this._authService.signUp({
       ...this.form.value,
-      id: users ? users.length + 1 : 1,
+      id: this.users ? randomId + (this.users.length + 1) : randomId + 1,
     } as SignUpDto);
 
     if (this.verify.valid) {
-      this.router.navigate([
+      this._router.navigate([
         '/user-profile',
-        { queryParams: users ? users.length + 1 : 1 },
+        {
+          queryParams: this.users
+            ? randomId + (this.users.length + 1)
+            : randomId + 1,
+        },
       ]);
       return;
     }
     this.verify.markAsTouched();
   }
 
+  getRandomId() {
+    let randomId = '';
+    for (let i = 0; i < 5; i++) {
+      randomId += Math.floor(Math.random() * 10);
+      randomId += String.fromCharCode(Math.floor(Math.random() * 25 + 65));
+    }
+    return randomId;
+  }
+
+  readURL(event: Event): void {
+    if (
+      (<HTMLInputElement>event.target).files &&
+      (<FileList>(<HTMLInputElement>event.target)?.files)[0]
+    ) {
+      const file = (<FileList>(<HTMLInputElement>event.target).files)[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imageUrl = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   ngOnDestroy(): void {
-    this.unSubscribe$.next();
+    this._unSubscribe$.next();
   }
 }

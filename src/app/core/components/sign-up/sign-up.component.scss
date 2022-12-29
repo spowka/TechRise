@@ -21,9 +21,9 @@ mat-card-title {
 }
 
 mat-card {
-  width: 30%;
+  width: 450px;
   margin: 1% auto;
-  padding-top: 15px;
+  padding: 25px 0;
   border-radius: 8px;
 }
 mat-form-field,
@@ -36,11 +36,76 @@ mat-card-content {
   margin-top: 20px;
 }
 
+.emailAlreadyExist {
+  margin-top: -10px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  color: #f44336;
+  height: 16px;
+  font-family: sans-serif;
+  font-size: 12px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0.033em;
+  text-decoration: inherit;
+  text-transform: none;
+  margin-left: 60px;
+  padding-bottom: 8px;
+}
+
 .login-button {
-  margin-top: 20px;
+  margin: 20px auto;
   display: block;
   width: 80%;
-  margin: 20px auto;
+  margin-bottom: 0;
+}
+
+.upload-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  label {
+    mat-icon {
+      color: rgba(129, 129, 129);
+      margin-left: 10px;
+    }
+  }
+  mat-icon {
+    margin-left: 15px;
+    color: green;
+  }
+  label {
+    padding: 5px 20px;
+    border-radius: 5px;
+    background-color: rgb(84, 84, 84, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    color: rgb(43, 47, 51);
+    cursor: pointer;
+    &:hover {
+      background-color: rgb(84, 84, 84, 0.3);
+    }
+  }
+  input[type="file"] {
+    visibility: hidden;
+    display: none;
+  }
+}
+
+.world-icon {
+  position: absolute;
+  right: -4px;
+  top: 14px;
+  height: 24px;
+  width: 24px;
+}
+
+.location {
+  width: 21px;
+  height: 25px;
 }
 
 .verify-text-wrapper {
@@ -51,7 +116,6 @@ mat-card-content {
   padding: 5% 30%;
   p {
     margin-bottom: 20px;
-    // max-width: 500px;
     font-family: "Nunito Sans";
     font-weight: 700;
     font-size: 18px;
@@ -87,8 +151,21 @@ input::-webkit-inner-spin-button {
   display: none;
 }
 
+::ng-deep {
+  .mat-mdc-form-field-icon-suffix {
+    color: rgba(129, 129, 129, 0.9);
+  }
+  .mat-mdc-button-touch-target {
+    color: rgba(129, 129, 129, 0.9);
+  }
+}
+
 @media (max-width: 1024px) {
   mat-card {
     width: 100%;
+  }
+
+  .verify-text-wrapper {
+    padding: 5% 5%;
   }
 }

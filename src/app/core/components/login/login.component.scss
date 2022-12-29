@@ -11,8 +11,8 @@ mat-card-title {
 }
 
 mat-card {
-  padding-top: 15px;
-  width: 30%;
+  padding: 25px 0;
+  width: 450px;
   margin: 1% auto;
   border-radius: 8px;
 }
@@ -27,20 +27,19 @@ mat-card-content {
 }
 
 .login-button {
-  margin-top: 20px;
+  margin: 20px auto;
   display: block;
   width: 80%;
-  margin: 20px auto;
+  margin-bottom: 0;
 }
 
 .have-account-button {
   display: flex;
-  padding: 15px;
+  margin-top: 15px;
   justify-content: center;
   font-family: "Nunito Sans";
   font-weight: 500;
   font-size: 18px;
-  line-height: 41px;
   color: #545454;
   a {
     text-decoration: none;
@@ -48,7 +47,6 @@ mat-card-content {
     font-family: "Nunito Sans";
     font-weight: 500;
     font-size: 18px;
-    line-height: 41px;
   }
 }
 
@@ -56,4 +54,7 @@ mat-card-content {
   mat-card {
     width: 100%;
   }
+}
+.color {
+  background-color: red;
 }
